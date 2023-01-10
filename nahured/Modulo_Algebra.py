@@ -305,10 +305,12 @@ def SubdividirMatriz(M):
   return a, b, c, d
 
 def Strassen(Ma,Mb,n):
-  if n==1:
+  """if n==1:
     matriz= [[0]]
     matriz[0][0]= Ma[0][0] * Mb[0][0]
-    return matriz
+    return matriz"""
+  if n==64:
+    return MultiplicarMatriz_v2(Ma,Mb)
 
   else:
     a,b,c,d= SubdividirMatriz(Ma)
