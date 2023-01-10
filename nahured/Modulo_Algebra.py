@@ -8,13 +8,6 @@ import math
 
 """
 
-#modulo matematico creado por Nahuel Alejandro Burgos usando la libreria math
-raiz2 = math.sqrt #cambio la referencia del modulo matematico math (sqrt) que es de la raiz cuadrada a raiz2 para facilitar mi codigo
-pi = math.pi
-cos = math.cos
-sin = math.sin
-tan = math.tan
-
 
 RadToGrad = lambda r: (180*r)/pi
 #convierte los radianes (Rad) a grados (Grad) (lambda es una funcion de una sola linea)
