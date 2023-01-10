@@ -203,89 +203,67 @@ def area_of_polygon(points):
         area -= points[i][1] * points[j][0]
     return abs(area) / 2.0
 
+def MatrizIdentidad(A):
+    m = len(A)
+    m0 = len(A[0])
+    matriz = [[]for fil in range(m)]
+    for i in range(m):
+        for j in range(m0):
+            if i != j:
+                matriz[i].append(0)
+            else:
+                matriz[i].append(1)
+    return matriz
+
 def SumaMatriz(Ma,Mb):
     """este modulo ingresamos 2 matrices y las suma
         te retorna una matriz sumada
             Ma = Matriz 1
             Mb = Matriz 2"""
-    if type(Mb)== int:
-      matriz = Ma
-      for i in range(len(Ma)):
-        for j in range(len(Ma[0])):
-          matriz[i][j]+= Mb
-    elif type(Ma)== int:
-      matriz = Mb
-      for i in range(len(Mb)):
-        for j in range(len(Mb[0])):
-          matriz[i][j]+= Ma
-    else:
-      matriz = []
-      for i in range(len(Ma)):
-          matriz2 = []
-          for j in range(len(Ma[0])):
-              m = Ma[i][j] + Mb[i][j]
-              matriz2.append(m)
-          matriz.append(matriz2)
-        
-    return matriz
-def ResMatriz(Ma,Mb):
-    """este modulo ingresamos 2 matrices y las resta
-        te retorna una matriz sumada
-            Ma = Matriz 1
-            Mb = Matriz 2"""
-    if type(Mb)== int:
-      matriz = Ma
-      for i in range(len(Ma)):
-        for j in range(len(Ma[0])):
-          matriz[i][j] -= Mb
-    elif type(Ma) == int:
-      matriz = Mb
-      for i in range(len(Mb)):
-        for j in range(len(Mb[0])):
-          matriz[i][j] -= Ma
-    else:
-      matriz = []
-      for i in range(len(Ma)):
-          matriz2 = []
-          for j in range(len(Ma[0])):
-              matriz2.append(Ma[i][j] - Mb[i][j])
-          matriz.append(matriz2)
+    matriz = []
+    for i in range(len(Ma)):
+        matriz2 = []
+        for j in range(len(Ma[i])):
+            m = Ma[i][j] + Mb[i][j]
+            matriz2.append(m)
+        matriz.append(matriz2)
     return matriz
 
 def MultiplicarMatriz(Ma,Mb):
-    if type(Mb)== int:
-      matriz = Ma
-      for i in range(len(Ma)):
-        for j in range(len(Ma[0])):
-          matriz[i][j] *= Mb
-    elif type(Ma) == int:
-      matriz = Mb
-      for i in range(len(Mb)):
-        for j in range(len(Mb[0])):
-          matriz[i][j] *= Ma
-    else:
-      if len(Ma[0]) != len(Mb):
+    if len(Ma[0]) != len(Mb):
         raise ValueError(f"las filas y las columnas de las matrices no coinciden por ende no se puede multiplicar \nel numero de columnas de matriz 1 es {len(Ma[0])}\nel numero de filas de matriz 2 es {len(Mb)}")
-      matriz =[[]for _ in range(len(Ma))]
-      for i in range(len(Ma)):
-          for k in range(len(Ma)):
-              m = 0
-              n = 0
-              for j in range(len(Mb)):
-                  m = Ma[i][k] * Mb[k][j]
-                  n = m + n
-              matriz[i].append(n)
+    matriz = [[]for _ in range(len(Ma))]
+    for i in range(len(Ma)):
+        for j in range(len(Ma)):
+            m = 0
+            n = 0
+            for h in range(len(Mb)):
+                m = Ma[i][h] * Mb[h][j]
+                n = m + n
+            matriz[i].append(n)
     return matriz
 
+def nueva_matriz(m,n):
+  matriz =[[0 for fil in range(m)] for col in range(n)]
+  return matriz
 def MultiplicarMatriz_v2(Ma,Mb):
     if len(Ma[0]) != len(Mb):
         raise ValueError(f"las filas y las columnas de las matrices no coinciden por ende no se puede multiplicar \nel numero de columnas de matriz 1 es {len(Ma[0])}\nel numero de filas de matriz 2 es {len(Mb)}")
-    matriz =[[0 for fil in range(len(Mb))] for col in range(len(Ma[0]))]
+    matriz =nueva_matriz(len(Mb),len(Ma[0]))
     for i in range(len(Ma)):
         for k in range(len(Mb[0])):
             for j in range(len(Mb)):
               matriz[i][j]+= Ma[i][k] * Mb[k][j]
     return matriz
+"""def MultiplicarMatriz_zip(Ma,Mb):
+    if len(Ma[0]) != len(Mb):
+        raise ValueError(f"las filas y las columnas de las matrices no coinciden por ende no se puede multiplicar \nel numero de columnas de matriz 1 es {len(Ma[0])}\nel numero de filas de matriz 2 es {len(Mb)}")
+    matriz = [[sum(ma * mb for ma, mb in zip(i, j))
+               for j in zip(*Mb)] for i in Ma]
+    return matriz"""
+
+
+
 def SubdividirMatriz(M):
   a= b= c= d= M
 
@@ -295,47 +273,11 @@ def SubdividirMatriz(M):
     c= c[len(c)//2:]
     d= d[len(d)//2:]
 
-  while len(a[0]) > len(M[0])//2:
-    for i in range(len(a[0])//2):
+  while len(a[a]) > len(M[0])//2:
+    for i in range(len(a[0]//2)):
       a[i]= a[i][:len(a[i])//2]
-      b[i]= b[i][len(b[i])//2:]
-      c[i]= c[i][:len(c[i])//2]
+      b[i]= b[i][:len(b[i])//2]
+      c[i]= c[i][len(c[i])//2:]
       d[i]= d[i][len(d[i])//2:]
 
   return a, b, c, d
-
-def Strassen(Ma,Mb,n):
-  """if n==1:
-    matriz= [[0]]
-    matriz[0][0]= Ma[0][0] * Mb[0][0]
-    return matriz"""
-  if n==64:
-    return MultiplicarMatriz_v2(Ma,Mb)
-
-  else:
-    a,b,c,d= SubdividirMatriz(Ma)
-    e,f,g,h= SubdividirMatriz(Mb)
-
-    p1= Strassen(a, ResMatriz(f,h), n/2) #p1=a*(f-h)
-    p2= Strassen(SumaMatriz(a,b), h, n/2) #p2=(a+b)*h
-    p3= Strassen(SumaMatriz(c,d), e, n/2) #p3=(c+d)*e
-    p4= Strassen(d, ResMatriz(g,e), n/2) #p4=d*(g-e)
-    p5= Strassen(SumaMatriz(a,d), SumaMatriz(e,h), n/2) #p5=(a+d)*(e+h)
-    p6= Strassen(ResMatriz(b,d), SumaMatriz(g,h), n/2) #p6=(b-d)*(g+h)
-    p7= Strassen(ResMatriz(a,c), SumaMatriz(e,f), n/2) #p7=(a-c)*(e+f)
-    
-    Matriz11= SumaMatriz(ResMatriz(SumaMatriz(p5, p4), p2), p6)
-    Matriz12= SumaMatriz(p1, p2)
-    Matriz21= SumaMatriz(p3, p4)
-    Matriz22= SumaMatriz(ResMatriz(ResMatriz(p5, p3), p7), p1)
-
-    m=len(Matriz11)
-    Matriz= [[0 for fil in range(m*2)] for col in range(m*2)]
-    for i in range(m):
-      for j in range(m):
-        Matriz[i][j]= Matriz11[i][j]
-        Matriz[i][j+m]= Matriz12[i][j]
-        Matriz[i+m][j]= Matriz21[i][j]
-        Matriz[i+m][j+m]= Matriz22[i][j]
-
-    return Matriz
