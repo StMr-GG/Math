@@ -305,8 +305,8 @@ def SubdividirMatriz(M):
     c= c[len(c)//2:]
     d= d[len(d)//2:]
 
-  while len(a[a]) > len(M[0])//2:
-    for i in range(len(a[0]//2)):
+  while len(a[0]) > len(M[0])//2:
+    for i in range(len(a[0])//2):
       a[i]= a[i][:len(a[i])//2]
       b[i]= b[i][:len(b[i])//2]
       c[i]= c[i][len(c[i])//2:]
@@ -318,7 +318,7 @@ def Strassen(Ma,Mb,n):
     matriz= [[0]]
     matriz[0][0]= Ma[0][0] * Mb[0][0]
     return matriz"""
-  if n==64:
+  if n==64: #leafsize optimo esta entre 64, 128 y 256
     return MultiplicarMatriz_v2(Ma,Mb)
 
   else:
