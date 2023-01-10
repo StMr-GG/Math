@@ -8,6 +8,8 @@ import math
 
 """
 
+def my_sqrt(x):
+  return x**0.5
 #modulo matematico creado por Nahuel Alejandro Burgos usando la libreria math
 raiz2 = math.sqrt #cambio la referencia del modulo matematico math (sqrt) que es de la raiz cuadrada a raiz2 para facilitar mi codigo
 pi = math.pi
