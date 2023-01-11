@@ -18,13 +18,13 @@ b=[[101,181,119,113],[22,22,22,22],[33,33,33,33],[44,44,44,44]]
 Ra=[[0 for x in range(n)] for y in range(n)] 
 Rb=[[0 for x in range(n)] for y in range(n)] 
 
-"""random.seed(a=123456, version=2)
+random.seed(a=123456, version=2)
 for i in range(n):
   for j in range(n):
     Ra[i][j]=random.randint(-10000, 10000)
     Rb[i][j]=random.randint(-10000, 10000)
-"""
-"""print(f"Test con matrices {n}x{n}")
+
+print(f"Test con matrices {n}x{n}")
 st1= time.time()
 res1= alg.MultiplicarMatriz_v2(Ra,Rb)
 #print(f"\nResult={res1}")
@@ -36,19 +36,3 @@ res2= alg.Strassen(Ra,Rb,n)
 et2=round((time.time()-st2), 4)
 print(f"Tiempo algoritmo Stranssen: \t{et2}")
 print(f"Delta t={et1-et2}")
-"""
-
-Prueba = [
-  [11,12,13,14,15,16],
-  [21,22,23,24,25,26],
-  [31,32,33,34,35,36],
-  [41,42,43,44,45,46],
-  [51,52,53,54,55,56],
-  [61,62,63,64,65,66]
-  ]
-
-alfa = 1,1
-
-lamada = alg.divisionDeterminanteMa(A,alfa)
-
-print(f"{lamada[0]}\n{lamada[1]}\n{lamada[2]}\n{lamada[3]}\n")
