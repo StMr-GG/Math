@@ -17,3 +17,10 @@ def MultiplicarMatriz_zip(Ma,Mb):
     matriz = [[sum(ma * mb for ma, mb in zip(i, j))
                for j in zip(*Mb)] for i in Ma]
     return matriz
+
+columna = 6
+fila = 6
+
+matriz = [[0 for col in range(columna - 1)]for fil in range(fila - 1)]
+
+print(matriz)

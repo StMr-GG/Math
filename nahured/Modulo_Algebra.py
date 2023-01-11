@@ -348,3 +348,18 @@ def Strassen(Ma,Mb,n):
         Matriz[i+m][j+m]= Matriz22[i][j]
 
     return Matriz
+
+def divisionDeterminanteMa(A,a):
+    #no me gusta el nombre de la
+    I,J = a
+    A.remove(A[I])
+    fila = len(A)
+    columna = len(A[0])
+    matriz = [[]for fil in range(fila)]
+    for i in range(fila):
+        for j in range(columna):
+            if J != j:
+                matriz[i].append(A[i][j]) 
+            else:
+                pass
+    return A
