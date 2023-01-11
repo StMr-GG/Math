@@ -1,5 +1,3 @@
-se pueden sumar matrices con diferente morfologia?
-
 lo que tiene uqe ver con la deteminante de la matriz inversa es algo que yo lo quiero plantear, asi que lo estoy haciendo paso por paso
     el ejemplo base es este
         A = [  j0 j1 j2 j3 j4 j5

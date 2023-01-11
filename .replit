@@ -1,4 +1,4 @@
-run = "python3 ReplitMain.py"
+run = "python3 VisualcodeMain.py"
 
 [nix]
 channel = "stable-22_11"

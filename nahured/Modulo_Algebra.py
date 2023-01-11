@@ -202,6 +202,12 @@ def area_of_polygon(points):
 def NuevaMatriz(n,m):
   matriz = [[0 for fil in range(m)] for col in range(n)]
   return matriz
+def CopiarMatriz(M):
+    M2= NuevaMatriz(len(M),len(M[0]))
+    for i in range(len(M)):
+      for j in range(len(M[0])):
+        M2[i][j]= M[i][j]
+    return M2
 def ImpMatriz(M):
     assert type(M) == list
     for i in M:
@@ -432,10 +438,14 @@ def Strassen(Ma,Mb):
 def divisionDeterminanteMa(A,a):
     #no me gusta el nombre de la funcion
     I,J = a
-    A.remove(A[I])
-    for i in range(len(A)):
-        A[i].remove(A[i][J])
-    return A
+    
+    B= CopiarMatriz(A)
+    
+    B.remove(B[I])
+    #Fila=len(M) y Columna=len(M[0])
+    for i in range(len(B)):
+        B[i].remove(B[i][J])
+    return B
 
 def CalcDeterminanteMa(A):
     Matriz = []

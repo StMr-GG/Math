@@ -12,12 +12,13 @@ Prueba = [
   [61,62,63,64,65,66]
   ]
 
-alfa = 1,1
+alfa = 1,0
+
 
 for i in range(len(Prueba)):
   for j in range(len(Prueba[0])):
     alfa = i,j
-    lamada = alg.divisionDeterminanteMa(Prueba,alfa)
-    print(f"{lamada[0]}\n{lamada[1]}\n{lamada[2]}\n{lamada[3]}\n")
+    print(f"\n{alfa}\n-------------------")
+    alg.ImpMatriz(alg.divisionDeterminanteMa(Prueba,alfa))
 
 #mendigo = alg.CalcDeterminanteMa(Prueba)
