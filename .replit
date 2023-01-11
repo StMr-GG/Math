@@ -1,6 +1,6 @@
-run = "python3 VisualcodeMain.py"
+run = "python3 ReplitMain.py"
 
-hidden = [".git", "**/__pycache__", "**/.mypy_cache", "**/*.pyc","__init__.py"]
+hidden = [".git", "**/__pycache__", "**/.mypy_cache", "**/*.pyc", "**/__init__.py"]
 
 [nix]
 channel = "stable-22_11"
