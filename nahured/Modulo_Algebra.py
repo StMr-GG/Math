@@ -8,7 +8,6 @@ import math
 
 """
 
-
 #modulo matematico creado por Nahuel Alejandro Burgos usando la libreria math
 raiz2 = math.sqrt #cambio la referencia del modulo matematico math (sqrt) que es de la raiz cuadrada a raiz2 para facilitar mi codigo
 pi = math.pi
@@ -16,10 +15,8 @@ cos = math.cos
 sin = math.sin
 tan = math.tan
 
-
 RadToGrad = lambda r: (180*r)/pi
 #convierte los radianes (Rad) a grados (Grad) (lambda es una funcion de una sola linea)
-
 GradToRad = lambda g: (pi*g)/180
 #convierte los grados (Grad) a radianes (Rad)
 
@@ -202,6 +199,18 @@ def area_of_polygon(points):
         area -= points[i][1] * points[j][0]
     return abs(area) / 2.0
 
+def NuevaMatriz(n,m):
+  matriz = [[0 for fil in range(m)] for col in range(n)]
+  return matriz
+def ImpMatriz(M):
+    assert type(M) == list
+    for i in M:
+        print("\t".join(map(str, i)))
+def OrdenMatriz(M):
+  assert type(M) == list
+  if len(M) > len(M[0]):
+    return len(M)
+  return len(M[0])
 def MatrizIdentidad(A):
     m = len(A)
     m0 = len(A[0])
@@ -214,6 +223,13 @@ def MatrizIdentidad(A):
                 matriz[i].append(1)
     return matriz
 
+def MatrizIdentidad2(n,m):
+  matriz= NuevaMatriz(n,m)
+  for i in range(n):
+    for j in range(m):
+      if i == j:
+        matriz[i][j]= 1
+  return matriz
 def SumaMatriz(Ma,Mb):
     """este modulo ingresamos 2 matrices y las suma
         te retorna una matriz sumada
@@ -239,6 +255,28 @@ def SumaMatriz(Ma,Mb):
           matriz.append(matriz2)
         
     return matriz
+def SumaMatriz2(Ma, Mb):    
+    if type(Mb) == int:
+      assert type(Ma) == list
+      matriz= Ma
+      for i in range(len(Ma)):
+        for j in range(len(Ma[0])):
+          matriz[i][j]+= Mb
+    elif type(Ma) == int:
+      assert type(Mb) == list
+      matriz= Mb
+      for i in range(len(Mb)):
+        for j in range(len(Mb[0])):
+          matriz[i][j]+= Ma
+    else:
+      assert type(Ma) == list and type(Mb) == list
+      assert OrdenMatriz(Ma) == OrdenMatriz(Mb)
+      n, m= len(Ma), len(Ma[0])
+      matriz= NuevaMatriz(n, m)
+      for i in range(n):
+          for j in range(m):
+              matriz[i][j]= Ma[i][j] + Mb[i][j]
+      return matriz
 def ResMatriz(Ma,Mb):
     """este modulo ingresamos 2 matrices y las resta
         te retorna una matriz sumada
@@ -262,6 +300,28 @@ def ResMatriz(Ma,Mb):
               matriz2.append(Ma[i][j] - Mb[i][j])
           matriz.append(matriz2)
     return matriz
+def ResMatriz2(Ma,Mb):
+    if type(Mb) == int:
+      assert type(Ma) == list
+      matriz= Ma
+      for i in range(len(Ma)):
+        for j in range(len(Ma[0])):
+          matriz[i][j]-= Mb
+    elif type(Ma) == int:
+      assert type(Mb) == list
+      matriz= Mb
+      for i in range(len(Mb)):
+        for j in range(len(Mb[0])):
+          matriz[i][j]-= Ma
+    else:
+      assert type(Ma) == list and type(Mb) == list
+      assert OrdenMatriz(Ma) == OrdenMatriz(Mb)
+      n, m= len(Ma), len(Ma[0])
+      matriz= NuevaMatriz(n, m)
+      for i in range(n):
+          for j in range(m):
+              matriz[i][j]= Ma[i][j] - Mb[i][j]
+      return matriz
 def MultiplicarMatriz(Ma,Mb):
     if type(Mb)== int:
       matriz = Ma
@@ -287,15 +347,31 @@ def MultiplicarMatriz(Ma,Mb):
               matriz[i].append(n)
     return matriz
 
-def MultiplicarMatriz_v2(Ma,Mb):
-    if len(Ma[0]) != len(Mb):
-        raise ValueError(f"las filas y las columnas de las matrices no coinciden por ende no se puede multiplicar \nel numero de columnas de matriz 1 es {len(Ma[0])}\nel numero de filas de matriz 2 es {len(Mb)}")
-    matriz =[[0 for fil in range(len(Mb))] for col in range(len(Ma[0]))]
-    for i in range(len(Ma)):
-        for k in range(len(Mb[0])):
-            for j in range(len(Mb)):
-              matriz[i][j]+= Ma[i][k] * Mb[k][j]
-    return matriz
+def MultiplicarMatriz2(Ma,Mb):
+    if type(Mb) == int:
+      assert type(Ma) == list
+      matriz = Ma
+      for i in range(len(Ma)):
+        for j in range(len(Ma[0])):
+          matriz[i][j]*= Mb
+    elif type(Ma) == int:
+      assert type(Mb) == list
+      matriz = Mb
+      for i in range(len(Mb)):
+        for j in range(len(Mb[0])):
+          matriz[i][j]*= Ma
+    else:
+      assert type(Ma) == list and type(Mb) == list
+      #Fila=len(M) y Columna=len(M[0])
+      #Para A[n,m] y B[r,s] es posible multiplicar si m=r, el resultado sera de la forma C[n,s]
+      n, m, r, s= len(Ma), len(Ma[0]), len(Mb), len(Mb[0])
+      assert m == r
+      matriz= NuevaMatriz(n,s)
+      for i in range(n):
+          for k in range(s):
+              for j in range(s):
+                matriz[i][j]+= Ma[i][k] * Mb[k][j]
+      return matriz
 def SubdividirMatriz(M):
   a= b= c= d= M
 
@@ -313,30 +389,26 @@ def SubdividirMatriz(M):
       d[i]= d[i][len(d[i])//2:]
 
   return a, b, c, d
-def Strassen(Ma,Mb,n):
-  """if n==1:
-    matriz= [[0]]
-    matriz[0][0]= Ma[0][0] * Mb[0][0]
-    return matriz"""
-  if n==64: #leafsize optimo esta entre 64, 128 y 256
-    return MultiplicarMatriz_v2(Ma,Mb)
+def _Strassen(Ma,Mb,n):
+  if n<=64: #leafsize optimo esta entre 64, 128 y 256
+    return MultiplicarMatriz2(Ma,Mb)
 
   else:
     a,b,c,d= SubdividirMatriz(Ma)
     e,f,g,h= SubdividirMatriz(Mb)
 
-    p1= Strassen(a, ResMatriz(f,h), n/2) #p1=a*(f-h)
-    p2= Strassen(SumaMatriz(a,b), h, n/2) #p2=(a+b)*h
-    p3= Strassen(SumaMatriz(c,d), e, n/2) #p3=(c+d)*e
-    p4= Strassen(d, ResMatriz(g,e), n/2) #p4=d*(g-e)
-    p5= Strassen(SumaMatriz(a,d), SumaMatriz(e,h), n/2) #p5=(a+d)*(e+h)
-    p6= Strassen(ResMatriz(b,d), SumaMatriz(g,h), n/2) #p6=(b-d)*(g+h)
-    p7= Strassen(ResMatriz(a,c), SumaMatriz(e,f), n/2) #p7=(a-c)*(e+f)
+    p1= Strassen(a, ResMatriz2(f,h), n/2) #p1=a*(f-h)
+    p2= Strassen(SumaMatriz2(a,b), h, n/2) #p2=(a+b)*h
+    p3= Strassen(SumaMatriz2(c,d), e, n/2) #p3=(c+d)*e
+    p4= Strassen(d, ResMatriz2(g,e), n/2) #p4=d*(g-e)
+    p5= Strassen(SumaMatriz2(a,d), SumaMatriz2(e,h), n/2) #p5=(a+d)*(e+h)
+    p6= Strassen(ResMatriz2(b,d), SumaMatriz2(g,h), n/2) #p6=(b-d)*(g+h)
+    p7= Strassen(ResMatriz2(a,c), SumaMatriz2(e,f), n/2) #p7=(a-c)*(e+f)
     
-    Matriz11= SumaMatriz(ResMatriz(SumaMatriz(p5, p4), p2), p6)
-    Matriz12= SumaMatriz(p1, p2)
-    Matriz21= SumaMatriz(p3, p4)
-    Matriz22= SumaMatriz(ResMatriz(ResMatriz(p5, p3), p7), p1)
+    Matriz11= SumaMatriz2(ResMatriz2(SumaMatriz2(p5, p4), p2), p6)
+    Matriz12= SumaMatriz2(p1, p2)
+    Matriz21= SumaMatriz2(p3, p4)
+    Matriz22= SumaMatriz2(ResMatriz2(ResMatriz2(p5, p3), p7), p1)
 
     m=len(Matriz11)
     Matriz= [[0 for fil in range(m*2)] for col in range(m*2)]
@@ -348,6 +420,14 @@ def Strassen(Ma,Mb,n):
         Matriz[i+m][j+m]= Matriz22[i][j]
 
     return Matriz
+def Strassen(Ma,Mb):
+  assert type(Ma) == list and type(Mb) == list
+  #Strassen SOLO! funciona con matrices cuadradas
+  assert len(Ma) == len(Ma[0]) == len(Mb) == len(Mb[0])
+  
+  n= len(Ma)
+  
+  return _Strassen(Ma,Mb,n)
 
 def divisionDeterminanteMa(A,a):
     #no me gusta el nombre de la funcion
