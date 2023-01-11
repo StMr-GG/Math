@@ -233,8 +233,7 @@ def MatrizIdentidad2(n,m):
   matriz= NuevaMatriz(n,m)
   for i in range(n):
     for j in range(m):
-      if i == j:
-        matriz[i][j]= 1
+      if i == j: matriz[i][j]= 1
   return matriz
 def SumaMatriz(Ma,Mb):
     """este modulo ingresamos 2 matrices y las suma
@@ -262,18 +261,20 @@ def SumaMatriz(Ma,Mb):
         
     return matriz
 def SumaMatriz2(Ma, Mb):    
-    if type(Mb) == int:
+    if type(Mb) == int  or float:
       assert type(Ma) == list
-      matriz= Ma
+      matriz= CopiarMatriz(Ma)
       for i in range(len(Ma)):
         for j in range(len(Ma[0])):
           matriz[i][j]+= Mb
-    elif type(Ma) == int:
+      return matriz
+    elif type(Ma) == int  or float:
       assert type(Mb) == list
-      matriz= Mb
+      matriz= CopiarMatriz(Mb)
       for i in range(len(Mb)):
         for j in range(len(Mb[0])):
           matriz[i][j]+= Ma
+      return matriz
     else:
       assert type(Ma) == list and type(Mb) == list
       assert OrdenMatriz(Ma) == OrdenMatriz(Mb)
@@ -307,18 +308,20 @@ def ResMatriz(Ma,Mb):
           matriz.append(matriz2)
     return matriz
 def ResMatriz2(Ma,Mb):
-    if type(Mb) == int:
+    if type(Mb) == int  or float:
       assert type(Ma) == list
-      matriz= Ma
+      matriz= CopiarMatriz(Ma)
       for i in range(len(Ma)):
         for j in range(len(Ma[0])):
           matriz[i][j]-= Mb
-    elif type(Ma) == int:
+      return matriz
+    elif type(Ma) == int  or float:
       assert type(Mb) == list
-      matriz= Mb
+      matriz= CopiarMatriz(Mb)
       for i in range(len(Mb)):
         for j in range(len(Mb[0])):
           matriz[i][j]-= Ma
+      return matriz
     else:
       assert type(Ma) == list and type(Mb) == list
       assert OrdenMatriz(Ma) == OrdenMatriz(Mb)
@@ -354,18 +357,20 @@ def MultiplicarMatriz(Ma,Mb):
     return matriz
 
 def MultiplicarMatriz2(Ma,Mb):
-    if type(Mb) == int:
+    if type(Mb) == int or float:
       assert type(Ma) == list
-      matriz = Ma
+      matriz = CopiarMatriz(Ma)
       for i in range(len(Ma)):
         for j in range(len(Ma[0])):
           matriz[i][j]*= Mb
-    elif type(Ma) == int:
+      return matriz
+    elif type(Ma) == int or float:
       assert type(Mb) == list
-      matriz = Mb
+      matriz = CopiarMatriz(Mb)
       for i in range(len(Mb)):
         for j in range(len(Mb[0])):
           matriz[i][j]*= Ma
+      return matriz
     else:
       assert type(Ma) == list and type(Mb) == list
       #Fila=len(M) y Columna=len(M[0])
@@ -378,7 +383,7 @@ def MultiplicarMatriz2(Ma,Mb):
               for j in range(s):
                 matriz[i][j]+= Ma[i][k] * Mb[k][j]
       return matriz
-def SubdividirMatriz(M):
+def SubdividirMatriz(M):#Divide una matriz en 4
   a= b= c= d= M
 
   while len(a) > len(M)/2:
