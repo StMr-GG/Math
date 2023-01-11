@@ -47,7 +47,7 @@ Prueba = [
   [61,62,63,64,65,66]
   ]
 
-alfa = 1,4
+alfa = 1,1
 
 lamada = alg.divisionDeterminanteMa(A,alfa)
 

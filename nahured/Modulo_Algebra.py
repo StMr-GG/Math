@@ -350,16 +350,9 @@ def Strassen(Ma,Mb,n):
     return Matriz
 
 def divisionDeterminanteMa(A,a):
-    #no me gusta el nombre de la
+    #no me gusta el nombre de la funcion
     I,J = a
     A.remove(A[I])
-    fila = len(A)
-    columna = len(A[0])
-    matriz = [[]for fil in range(fila)]
-    for i in range(fila):
-        for j in range(columna):
-            if J != j:
-                matriz[i].append(A[i][j]) 
-            else:
-                pass
+    for i in range(len(A)):
+        A[i].remove(A[i][J])
     return A
