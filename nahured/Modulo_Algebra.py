@@ -329,12 +329,12 @@ def ResMatriz2(Ma,Mb):
               matriz[i][j]= Ma[i][j] - Mb[i][j]
       return matriz
 def MultiplicarMatriz(Ma,Mb):
-    if type(Mb)== int:
+    if type(Mb)== int or type(Mb)== float:
       matriz = Ma
       for i in range(len(Ma)):
         for j in range(len(Ma[0])):
           matriz[i][j] *= Mb
-    elif type(Ma) == int:
+    elif type(Ma) == int or type(Ma) == float:
       matriz = Mb
       for i in range(len(Mb)):
         for j in range(len(Mb[0])):
@@ -441,17 +441,48 @@ def divisionDeterminanteMa(A,a):
     
     B= CopiarMatriz(A)
     
-    B.remove(B[I])
+    #B.remove(B[I])
+    del B[I]
     #Fila=len(M) y Columna=len(M[0])
     for i in range(len(B)):
-        B[i].remove(B[i][J])
+        del B[i][J]
+
     return B
 
 def CalcDeterminanteMa(A):
-    Matriz = []
-
+    Matriz = NuevaMatriz(len(A),len(A[0]))
     for i in range(len(A)):
         for j in range(len(A[0])):
             a = i,j
-            Matriz.append(divisionDeterminanteMa(A,a))
+            Matriz[i][j] = divisionDeterminanteMa(A,a)
     return Matriz
+
+def MatrizDeterminante(Ma):
+    Matriz = NuevaMatriz(len(Ma),len(Ma[0]))
+    def Calculo(A):
+        for i in range(len(A)*2):
+            if i < len(A):
+                la = 0
+                for j in range(len(A)):
+                    sa = 1
+                    for k in range(len(A)):
+                        sa = sa * A[(k+j) % len(A)][(k) % len(A[0])]
+                    la = la + sa
+            else:
+                la1 = 0
+                for j in range(len(A)):
+                    sa1 = 1
+                    for k in range(len(A)):
+                        sa1 = sa1 * A[((k+j)*-1) % len(A)][(k) % len(A[0])]
+                    la1 = la1 + (sa1 * -1)
+        return la + la1
+    for i in range(len(Ma)):
+        for j in range(len(Ma[0])):
+            if ParOImpar((i+j)) == 0:
+                Matriz[i][j] = Calculo(Ma[i][j])
+            else:
+                Matriz[i][j] = (Calculo(Ma[i][j])*-1)
+    return Matriz
+
+def MatrizTranspuesta(Ma):
+    return ([[fila[i] for fila in Ma] for i in range(len(Ma[0]))])
