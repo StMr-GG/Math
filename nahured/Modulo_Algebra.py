@@ -203,17 +203,26 @@ def NuevaMatriz(n,m):
   matriz = [[0 for fil in range(m)] for col in range(n)]
   return matriz
 def CopiarMatriz(M):
-    M2= NuevaMatriz(len(M),len(M[0]))
-    for i in range(len(M)):
-      for j in range(len(M[0])):
-        M2[i][j]= M[i][j]
-    return M2
+  if type(M) != list:
+    raise ValueError("No es una matriz valida.")
+  fil, col= len(M), len(M[0])
+  M2= NuevaMatriz(fil,col)
+  for i in range(fil):
+    for j in range(col):
+      M2[i][j]= M[i][j]
+  return M2
 def ImpMatriz(M):
-    assert type(M) == list
+    if type(M) != list:
+        raise ValueError("No es una matriz valida.")
     for i in M:
         print("\t".join(map(str, i)))
+def MatrizEsCuadrada(M):
+  if type(M) != list:
+        raise ValueError("No es una matriz valida.")
+  return len(M) == len(M[0])
 def OrdenMatriz(M):
-  assert type(M) == list
+  if type(M) != list:
+        raise ValueError("No es una matriz valida.")
   if len(M) > len(M[0]):
     return len(M)
   return len(M[0])
@@ -262,22 +271,26 @@ def SumaMatriz(Ma,Mb):
     return matriz
 def SumaMatriz2(Ma, Mb):    
     if type(Mb) == int  or float:
-      assert type(Ma) == list
+      if type(Ma) != list:
+        raise ValueError("No es una matriz valida.")
       matriz= CopiarMatriz(Ma)
       for i in range(len(Ma)):
         for j in range(len(Ma[0])):
           matriz[i][j]+= Mb
       return matriz
     elif type(Ma) == int  or float:
-      assert type(Mb) == list
+      if type(Mb) != list:
+        raise ValueError("No es una matriz valida.")
       matriz= CopiarMatriz(Mb)
       for i in range(len(Mb)):
         for j in range(len(Mb[0])):
           matriz[i][j]+= Ma
       return matriz
     else:
-      assert type(Ma) == list and type(Mb) == list
-      assert OrdenMatriz(Ma) == OrdenMatriz(Mb)
+      if type(Ma) != list or type(Mb) != list:
+        raise ValueError("Una de las matrices no es valida.")
+      if OrdenMatriz(Ma) != OrdenMatriz(Mb):
+        raise ValueError("No se pueden sumar matrices de distinto orden.")
       n, m= len(Ma), len(Ma[0])
       matriz= NuevaMatriz(n, m)
       for i in range(n):
@@ -309,22 +322,26 @@ def ResMatriz(Ma,Mb):
     return matriz
 def ResMatriz2(Ma,Mb):
     if type(Mb) == int  or float:
-      assert type(Ma) == list
+      if type(Ma) != list:
+        raise ValueError("No es una matriz valida.")
       matriz= CopiarMatriz(Ma)
       for i in range(len(Ma)):
         for j in range(len(Ma[0])):
           matriz[i][j]-= Mb
       return matriz
     elif type(Ma) == int  or float:
-      assert type(Mb) == list
+      if type(Mb) != list:
+        raise ValueError("No es una matriz valida.")
       matriz= CopiarMatriz(Mb)
       for i in range(len(Mb)):
         for j in range(len(Mb[0])):
           matriz[i][j]-= Ma
       return matriz
     else:
-      assert type(Ma) == list and type(Mb) == list
-      assert OrdenMatriz(Ma) == OrdenMatriz(Mb)
+      if type(Ma) != list or type(Mb) != list:
+        raise ValueError("Una de las matrices no es valida.")
+      if OrdenMatriz(Ma) != OrdenMatriz(Mb):
+        raise ValueError("No se pueden restar matrices de distinto orden.")
       n, m= len(Ma), len(Ma[0])
       matriz= NuevaMatriz(n, m)
       for i in range(n):
@@ -358,32 +375,36 @@ def MultiplicarMatriz(Ma,Mb):
 
 def MultiplicarMatriz2(Ma,Mb):
     if type(Mb) == int or float:
-      assert type(Ma) == list
+      if type(Ma) != list:
+        raise ValueError("No es una matriz valida.")
       matriz = CopiarMatriz(Ma)
       for i in range(len(Ma)):
         for j in range(len(Ma[0])):
           matriz[i][j]*= Mb
       return matriz
     elif type(Ma) == int or float:
-      assert type(Mb) == list
+      if type(Mb) != list:
+        raise ValueError("No es una matriz valida.")
       matriz = CopiarMatriz(Mb)
       for i in range(len(Mb)):
         for j in range(len(Mb[0])):
           matriz[i][j]*= Ma
       return matriz
     else:
-      assert type(Ma) == list and type(Mb) == list
+      if type(Ma) != list or type(Mb) != list:
+        raise ValueError("Una de las matrices no es valida.")
       #Fila=len(M) y Columna=len(M[0])
       #Para A[n,m] y B[r,s] es posible multiplicar si m=r, el resultado sera de la forma C[n,s]
       n, m, r, s= len(Ma), len(Ma[0]), len(Mb), len(Mb[0])
-      assert m == r
+      if m != r:
+        raise ValueError(f"las filas y las columnas de las matrices no coinciden por ende no se puede multiplicar \nel numero de columnas de matriz 1 es {len(Ma[0])}\nel numero de filas de matriz 2 es {len(Mb)}")
       matriz= NuevaMatriz(n,s)
       for i in range(n):
           for k in range(s):
               for j in range(s):
                 matriz[i][j]+= Ma[i][k] * Mb[k][j]
       return matriz
-def SubdividirMatriz(M):#Divide una matriz en 4
+def _SubdividirMatriz(M):#Divide una matriz en 4
   a= b= c= d= M
 
   while len(a) > len(M)/2:
@@ -405,8 +426,8 @@ def _Strassen(Ma,Mb,n):
     return MultiplicarMatriz2(Ma,Mb)
 
   else:
-    a,b,c,d= SubdividirMatriz(Ma)
-    e,f,g,h= SubdividirMatriz(Mb)
+    a,b,c,d= _SubdividirMatriz(Ma)
+    e,f,g,h= _SubdividirMatriz(Mb)
 
     p1= Strassen(a, ResMatriz2(f,h), n/2) #p1=a*(f-h)
     p2= Strassen(SumaMatriz2(a,b), h, n/2) #p2=(a+b)*h
@@ -432,10 +453,12 @@ def _Strassen(Ma,Mb,n):
 
     return Matriz
 def Strassen(Ma,Mb):
-  assert type(Ma) == list and type(Mb) == list
+  if type(Ma) != list or type(Mb) != list:
+    raise ValueError("Una de las matrices no es valida.")
   #Strassen SOLO! funciona con matrices cuadradas
-  assert len(Ma) == len(Ma[0]) == len(Mb) == len(Mb[0])
-  
+  if not (MatrizEsCuadrada(Ma) and MatrizEsCuadrada(Mb)):
+    raise ValueError("Este metodo solo aplica a matrices cuadradas.")
+    
   n= len(Ma)
   
   return _Strassen(Ma,Mb,n)
@@ -453,7 +476,11 @@ def _PivoteAdjunta(M,Celda):
 
     return matriz
 
-def MatrizDeAdjunta(M):
+def MatrizDeDet(M): #Matriz de matrices determinantes
+    if type(M) != list:
+      raise ValueError("No es una matriz valida.")
+    if not MatrizEsCuadrada(M):
+      raise ValueError("Solo se puede sacar el determinante de matrices cuadradas.")
     matriz = NuevaMatriz(len(M),len(M[0]))
     for i in range(len(M)):
         for j in range(len(M[0])):
@@ -461,7 +488,11 @@ def MatrizDeAdjunta(M):
             matriz[i][j] = _PivoteAdjunta(M,a)
     return matriz
 
-def MatrizAdjunta(M):
+def MatrizDeCofactores(M):
+    if type(M) != list:
+      raise ValueError("No es una matriz valida.")
+    if not MatrizEsCuadrada(M):
+      raise ValueError("Solo se puede sacar el determinante de matrices cuadradas.")
     matriz = NuevaMatriz(len(M),len(M[0]))
     def Calculo(A):
         for i in range(len(A)*2):
@@ -489,32 +520,83 @@ def MatrizAdjunta(M):
     return matriz
 
 def MatrizTranspuesta(M):
-    return ([[fila[i] for fila in M] for i in range(len(M[0]))])
-def MatricesTriangulares(M):
+  if type(M) != list:
+    raise ValueError("No es una matriz valida.")
+    
+  return ([[fila[i] for fila in M] 
+           for i in range(len(M[0]))])
+  
+def MatrizAdjunta(M):
+  if type(M) != list:
+    raise ValueError("No es una matriz valida.")
+  if not MatrizEsCuadrada(M):
+    raise ValueError("Solo se puede sacar el determinante de matrices cuadradas.")
+  return MatrizTranspuesta(
+            MatrizDeCofactores(
+              MatrizDeDet(M)))
+  
+def _MatricesTriangulares(M):
+  if type(M) != list:
+    raise ValueError("No es una matriz valida.")
+  if not MatrizEsCuadrada(M):
+    raise ValueError("Solo se puede triangular matrices cuadradas.")
+  
   Sup= CopiarMatriz(M)
-  Inf= MatrizIdentidad2(len(M),len(M[0]))
-
-  for i in range(len(M)):
+  tam= len(M)
+  Inf= MatrizIdentidad2(tam, tam)
+  i= 0
+  
+  while i < tam:
     vec= Sup[i]
     d= Sup[i][i]
-    #Sup[i]= [round(k/d,2) for k in vec]
-    
-    for j in range(i+1,len(M[0])):
-      mult= (-Sup[j][i])/d
-      Sup[j]=[round(sum(k),2) for k in zip([l*mult for l in vec], Sup[j])]
+
+    if d==0:
+        Sup[i],Sup[i+1]=Sup[i+1],Sup[i]
+        continue
+      
+    for j in range(i+1, tam):
+      mult= -Sup[j][i]/d
+      Sup[j]= [sum(k) for k in 
+               zip([l*mult for l in vec], Sup[j])]
       
       if i<j:
-        Inf[i][j]= round(mult, 2)
+        Inf[j][i]= -mult
+        
+    i+=1
+    
   return Sup, Inf
 
-def DeterminanteMatrices(Ma,Mb):
+def MatrizTriaSup(M):
+  return _MatricesTriangulares(M)[0]
+
+def MatrizTriaInf(M):
+  return _MatricesTriangulares(M)[1]
+
+def _DeterminanteMatrices(Ma,Mb):
     det = 0
     for i in range(len(Ma)):
         det += Ma[0][i] * Mb[0][i]
     return det
 
+def DeterminanteMatriz(M):
+  if type(M) != list:
+    raise ValueError("No es una matriz valida.")
+  if not MatrizEsCuadrada(M):
+    raise ValueError("Solo se puede sacar el determinante de matrices cuadradas.")
+  det= -1
+  T= MatrizTriaSup(M)
+  for i in range(len(T)):
+    det*=T[i][i]
+  return det
+  
 def MatrizInversa(M):
-    MAdj = MatrizAdjunta(MatrizDeAdjunta(M))
-    MAdjT = MatrizTranspuesta(MAdj)
-    det = DeterminanteMatrices(M,MAdj)
-    return MultiplicarMatriz((1/det),MAdjT)
+  if type(M) != list:
+    raise ValueError("No es una matriz valida.")
+  if not MatrizEsCuadrada(M):
+    raise ValueError("Solo se puede sacar la inversa de una matriz cuadrada.")
+    
+  Adj= MatrizAdjunta(M)
+  AdjT= MatrizTranspuesta(Adj)
+  det = _DeterminanteMatrices(M,AdjT)
+  
+  return MultiplicarMatriz((1/det),Adj)

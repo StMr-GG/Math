@@ -18,7 +18,6 @@ Prueba = [
   [-2,1,1,4],
   [1,-2,-1,4]]
 
-Pruebain = alg.MatrizInversa(Prueba)
-alg.ImpMatriz(Pruebain)
 
-print("\n",3.833333333333333.as_integer_ratio())
+
+
