@@ -440,30 +440,29 @@ def Strassen(Ma,Mb):
   
   return _Strassen(Ma,Mb,n)
 
-def _PivoteAdjunta(A,a):
+def _PivoteAdjunta(M,Celda):
     #no me gusta el nombre de la funcion
-    I,J = a
+    I,J = Celda
     
-    B= CopiarMatriz(A)
+    matriz= CopiarMatriz(M)
     
-    #B.remove(B[I])
-    del B[I]
-    #Fila=len(M) y Columna=len(M[0])
-    for i in range(len(B)):
-        del B[i][J]
+    #matriz.remove(matriz[I])
+    del matriz[I]
+    for i in range(len(matriz)):
+        del matriz[i][J]
 
-    return B
+    return matriz
 
-def MatrizDeAdjunta(A):
-    Matriz = NuevaMatriz(len(A),len(A[0]))
-    for i in range(len(A)):
-        for j in range(len(A[0])):
+def MatrizDeAdjunta(M):
+    matriz = NuevaMatriz(len(M),len(M[0]))
+    for i in range(len(M)):
+        for j in range(len(M[0])):
             a = i,j
-            Matriz[i][j] = _PivoteAdjunta(A,a)
-    return Matriz
+            matriz[i][j] = _PivoteAdjunta(M,a)
+    return matriz
 
-def MatrizAdjunta(Ma):
-    Matriz = NuevaMatriz(len(Ma),len(Ma[0]))
+def MatrizAdjunta(M):
+    matriz = NuevaMatriz(len(M),len(M[0]))
     def Calculo(A):
         for i in range(len(A)*2):
             if i < len(A):
@@ -481,16 +480,16 @@ def MatrizAdjunta(Ma):
                         sa1 = sa1 * A[((k+j)*-1) % len(A)][(k) % len(A[0])]
                     la1 = la1 + (sa1 * -1)
         return la + la1
-    for i in range(len(Ma)):
-        for j in range(len(Ma[0])):
+    for i in range(len(M)):
+        for j in range(len(M[0])):
             if ParOImpar((i+j)) == 0:
-                Matriz[i][j] = Calculo(Ma[i][j])
+                matriz[i][j] = Calculo(M[i][j])
             else:
-                Matriz[i][j] = (Calculo(Ma[i][j])*-1)
-    return Matriz
+                matriz[i][j] = (Calculo(M[i][j])*-1)
+    return matriz
 
-def MatrizTranspuesta(Ma):
-    return ([[fila[i] for fila in Ma] for i in range(len(Ma[0]))])
+def MatrizTranspuesta(M):
+    return ([[fila[i] for fila in M] for i in range(len(M[0]))])
 def MatricesTriangulares(M):
   Sup= CopiarMatriz(M)
   Inf= MatrizIdentidad2(len(M),len(M[0]))
@@ -509,13 +508,13 @@ def MatricesTriangulares(M):
   return Sup, Inf
 
 def DeterminanteMatrices(Ma,Mb):
-    deter = 0
+    det = 0
     for i in range(len(Ma)):
-        deter += Ma[0][i] * Mb[0][i]
-    return deter
+        det += Ma[0][i] * Mb[0][i]
+    return det
 
-def MatrizInversa(Ma):
-    MaAd = MatrizAdjunta(MatrizDeAdjunta(Ma))
-    MaAdT = MatrizTranspuesta(MaAd)
-    deter = DeterminanteMatrices(Ma,MaAd)
-    return MultiplicarMatriz((1/deter),MaAdT)
+def MatrizInversa(M):
+    MAdj = MatrizAdjunta(MatrizDeAdjunta(M))
+    MAdjT = MatrizTranspuesta(MAdj)
+    det = DeterminanteMatrices(M,MAdj)
+    return MultiplicarMatriz((1/det),MAdjT)
