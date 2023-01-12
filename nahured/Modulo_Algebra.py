@@ -440,7 +440,7 @@ def Strassen(Ma,Mb):
   
   return _Strassen(Ma,Mb,n)
 
-def divisionDeterminanteMa(A,a):
+def _PivoteAdjunta(A,a):
     #no me gusta el nombre de la funcion
     I,J = a
     
@@ -454,15 +454,15 @@ def divisionDeterminanteMa(A,a):
 
     return B
 
-def CalcDeterminanteMa(A):
+def MatrizDeAdjunta(A):
     Matriz = NuevaMatriz(len(A),len(A[0]))
     for i in range(len(A)):
         for j in range(len(A[0])):
             a = i,j
-            Matriz[i][j] = divisionDeterminanteMa(A,a)
+            Matriz[i][j] = _PivoteAdjunta(A,a)
     return Matriz
 
-def MatrizDeterminante(Ma):
+def MatrizAdjunta(Ma):
     Matriz = NuevaMatriz(len(Ma),len(Ma[0]))
     def Calculo(A):
         for i in range(len(A)*2):
@@ -491,15 +491,31 @@ def MatrizDeterminante(Ma):
 
 def MatrizTranspuesta(Ma):
     return ([[fila[i] for fila in Ma] for i in range(len(Ma[0]))])
+def MatricesTriangulares(M):
+  Sup= CopiarMatriz(M)
+  Inf= MatrizIdentidad2(len(M),len(M[0]))
 
-def DeterminanteMatricez(Ma,Mb):
+  for i in range(len(M)):
+    vec= Sup[i]
+    d= Sup[i][i]
+    #Sup[i]= [round(k/d,2) for k in vec]
+    
+    for j in range(i+1,len(M[0])):
+      mult= (-Sup[j][i])/d
+      Sup[j]=[round(sum(k),2) for k in zip([l*mult for l in vec], Sup[j])]
+      
+      if i<j:
+        Inf[i][j]= round(mult, 2)
+  return Sup, Inf
+
+def DeterminanteMatrices(Ma,Mb):
     deter = 0
     for i in range(len(Ma)):
         deter += Ma[0][i] * Mb[0][i]
     return deter
 
 def MatrizInversa(Ma):
-    MaDet = MatrizDeterminante(CalcDeterminanteMa(Ma))
-    MaDetT = MatrizTranspuesta(MaDet)
-    deter = DeterminanteMatricez(Ma,MaDet)
-    return MultiplicarMatriz((1/deter),MaDetT)
+    MaAd = MatrizAdjunta(MatrizDeAdjunta(Ma))
+    MaAdT = MatrizTranspuesta(MaDet)
+    deter = DeterminanteMatrices(Ma,MaAd)
+    return MultiplicarMatriz((1/deter),MaAdT)
