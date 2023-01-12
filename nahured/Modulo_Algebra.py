@@ -516,6 +516,6 @@ def DeterminanteMatrices(Ma,Mb):
 
 def MatrizInversa(Ma):
     MaAd = MatrizAdjunta(MatrizDeAdjunta(Ma))
-    MaAdT = MatrizTranspuesta(MaDet)
+    MaAdT = MatrizTranspuesta(MaAd)
     deter = DeterminanteMatrices(Ma,MaAd)
     return MultiplicarMatriz((1/deter),MaAdT)
