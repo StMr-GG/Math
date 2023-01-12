@@ -491,3 +491,15 @@ def MatrizDeterminante(Ma):
 
 def MatrizTranspuesta(Ma):
     return ([[fila[i] for fila in Ma] for i in range(len(Ma[0]))])
+
+def DeterminanteMatricez(Ma,Mb):
+    deter = 0
+    for i in range(len(Ma)):
+        deter += Ma[0][i] * Mb[0][i]
+    return deter
+
+def MatrizInversa(Ma):
+    MaDet = MatrizDeterminante(CalcDeterminanteMa(Ma))
+    MaDetT = MatrizTranspuesta(MaDet)
+    deter = DeterminanteMatricez(Ma,MaDet)
+    return MultiplicarMatriz((1/deter),MaDetT)
