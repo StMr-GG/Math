@@ -34,11 +34,7 @@ if __name__ == "__main__":
     #print(f"\nResult={res2}")
     et2=round((time.time()-st2), 4)
     print(f"Tiempo algoritmo Stranssen: \t{et2}")
-    print(f"Delta t={et1-et2}")  
-
-
-  
-  
+    print(f"Delta t={et1-et2}")
 
   if not "Triangular":
     Mat= NuevaMatriz(n,n)
@@ -58,16 +54,8 @@ if __name__ == "__main__":
     Inf=MatrizTriaInf(c)
     print("\nInferior")
     ImpMatriz(Inf)"""
-
-  #ImpMatriz(MatrizAdjunta(c))
-  #ImpMatriz(MatrizDeDet(c))
   
-  """ImpMatriz(c)
-  print("\nInversa...")
-  ImpMatriz(MatrizInversa(c))"""
-
-  
-  if "Determinante":
+  if not "Determinante":
     print(f"Test metodos para calculo de determinantes")
     st1= time.time()
     res1= DeterminanteMatriz(c)
@@ -78,3 +66,11 @@ if __name__ == "__main__":
 
   
 
+
+  if not "Inversa":
+    print(f"Test metodos para calculo de matriz inversa")
+    st1= time.time()
+    res1= MatrizInversa(c)
+    #print(f"\nResult={res1}")
+    et1=round((time.time()-st1), 4)
+    print(f"Tiempo algoritmo 1: \t{et1}") 

@@ -599,4 +599,4 @@ def MatrizInversa(M):
   AdjT= MatrizTranspuesta(Adj)
   det = _DeterminanteMatrices(M,AdjT)
   
-  return MultiplicarMatriz((1/det),Adj)
+  return MultiplicarMatriz((1/det),Adj) 

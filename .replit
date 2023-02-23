@@ -1,4 +1,4 @@
-run = "python3 ReplitMain.py"
+run = "python3 raspberry_1.py"
 
 hidden = [".git", "**/__pycache__", "**/.mypy_cache", "**/*.pyc", "**/__init__.py"]
 
